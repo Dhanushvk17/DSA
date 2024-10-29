@@ -1,0 +1,39 @@
+class Solution:
+    def mincostTickets(self, days, costs):
+        ans = [0] * 366
+        check = [False] * 366
+
+        for day in days:
+            check[day] = True
+
+        for i in range(1, 366):
+            if not check[i]:
+                ans[i] = ans[i - 1]
+                continue
+
+            temp = min(ans[i - 1] + costs[0], ans[max(0, i - 7)] + costs[1])
+            ans[i] = min(temp, ans[max(0, i - 30)] + costs[2])
+
+        return ans[365]
+------------------------------------------------------------------------------------------------------------
+class Solution {
+    public int mincostTickets(int[] days, int[] costs) {
+        int[] ans = new int[366]; 
+        int temp;
+        boolean[] check = new boolean[366]; 
+        for (int day : days) {
+            check[day] = true;
+        }
+        
+        for (int i = 1; i <= 365; i++) {
+            if (!check[i]) {
+                ans[i] = ans[i-1];
+                continue;
+            }
+            temp = Math.min(ans[i-1] + costs[0], ans[Math.max(0, i-7)] + costs[1]);
+            ans[i] = Math.min(temp, ans[Math.max(0, i-30)] + costs[2]);
+        }
+        
+        return ans[365];
+    }
+}

@@ -1,0 +1,71 @@
+import java.util.Scanner;
+
+public class Main {
+    static boolean fun(int b[], int c, int s) {
+        if (c == s)
+            return true;
+        else {
+            for (int i = 0; i < s; i++) {
+                b[c] = i;
+                if (check(b, c)) {
+                    boolean d = fun(b, c + 1, s);
+                    if (d)
+                        return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    static boolean check(int b[], int c) {
+        for (int i = 0; i < c; i++) {
+            if (b[i] == b[c] || Math.abs(c - i) == Math.abs(b[c] - b[i]))
+                return false;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner z = new Scanner(System.in);
+        int n = z.nextInt();
+        int a[] = new int[n];
+        if (fun(a, 0, n)) {
+            for (int i = 0; i < n; i++)
+                System.out.print(a[i] + " ");
+        } else
+            System.out.print("-1");
+
+        z.close();
+    }
+}
+========================================================================
+def fun(b, c, s):
+    if c == s:
+        return True
+    else:
+        for i in range(s):
+            b[c] = i
+            if check(b, c):
+                d = fun(b, c + 1, s)
+                if d:
+                    return True
+        return False
+
+def check(b, c):
+    for i in range(c):
+        if b[i] == b[c] or abs(c - i) == abs(b[c] - b[i]):
+            return False
+    return True
+
+def main():
+    n = int(input())
+    a = [0] * n
+
+    if fun(a, 0, n):
+        for i in range(n):
+            print(a[i], end=" ")
+    else:
+        print("-1")
+
+if __name__ == "__main__":
+    main()

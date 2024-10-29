@@ -1,0 +1,219 @@
+===================================print max profit=========================================
+Given an array of jobs where every job has a deadline and associated profit if the job is finished before the deadline. It is also given that every job takes a single unit of time, so the minimum possible deadline for any job is 1. Maximize the total profit if only one job can be scheduled at a time.
+
+Input Format
+
+4
+4 20
+1 10
+1 40
+1 30
+
+Output Format
+
+60
+
+Sample Input 0
+
+4
+4 20   
+1 10
+1 40  
+1 30
+Sample Output 0
+
+60
+-----------------------------------------------------------------------------
+import java.util.*;
+public class Solution {
+     
+    static void fun(int dl[],int amt[],int max)
+    {
+        int ans = 0 ;
+        int b[] = new int[max+1];
+        for(int i=amt.length-1;i>=0;i--)
+        { 
+            for(int j=dl[i];j>0;j--)
+            {
+                if(b[j]==0)
+                {
+                    b[j]=amt[i];
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<=max;i++)
+            ans+=b[i];
+        System.out.print(ans);
+        
+    }
+
+ 
+   public static void main(String args[]) {
+       Scanner z= new Scanner(System.in);
+       int n = z.nextInt();
+     int dl[]=new int[n];
+       int amt[]=new int[n];
+      for(int i=0;i<n;i++)
+       {
+          dl[i]=z.nextInt();
+          amt[i]=z.nextInt();
+       }
+       for(int i=0;i<n;i++)
+       {
+           for(int j=0;j<n;j++)
+           {
+               if(amt[i]<amt[j])
+               {
+                   int t = amt[i];
+                 amt[i] = amt[j];
+                 amt[j]=t;
+                 t = dl[i];
+                 dl[i]=dl[j];
+                 dl[j]=t;
+                }
+           }
+       }
+     int max=0;
+     for(int i=0;i<n;i++)
+       if(max<dl[i])
+         max=dl[i];
+       fun(dl,amt,max);
+   }
+}
+================================================ print the job allocate name =========================================================================
+Given the arrival and departure times of all trains that reach a railway station, the task is to find the minimum number of platforms required for the railway station so that no train waits. We are given two arrays that represent the arrival and departure times of trains that stop.
+
+Input Format
+
+size of the array first array is arrival time elements second array is departure times elements
+
+Constraints
+
+Constraints: 1 ≤ n ≤ 50000 0000 ≤ A[i] ≤ D[i] ≤ 2359
+
+Expected Time Complexity: O(nLogn) Expected Auxiliary Space: O(1)
+
+Output Format
+
+print the minimum platforms
+
+Sample Input 0
+
+6
+900 940 950 1100 1500 1800
+910 1200 1120 1130 1900 2000
+Sample Output 0
+
+3
+Explanation 0
+
+Minimum 3 platforms are required to safely arrive and depart all trains.
+-------------------------------------------------------------------------------
+import java.util.*;
+public class Solution {
+     
+    static void fun(ArrayList<Character> name,ArrayList<Integer> dl,ArrayList<Integer> amt,int max)
+    {
+        char b[] = new char[max+1];
+        for(int i=amt.size()-1;i>=0;i--)
+        { 
+            for(int j=dl.get(i);j>0;j--)
+            {
+                if(b[j]==0)
+                {
+                    b[j]=name.get(i);
+                    break;
+                }
+            }
+        }
+        for(int i=1;i<=max;i++)
+            System.out.print(b[i]+" ");
+        
+        
+    }
+
+ 
+   public static void main(String args[]) {
+       Scanner z= new Scanner(System.in);
+       ArrayList<Character> name = new ArrayList<>();
+       ArrayList<Integer> dl = new ArrayList<>();
+       ArrayList<Integer> amt = new ArrayList<>();
+       
+      while(z.hasNext())
+       {
+          name.add(z.next().charAt(0));
+          dl.add(z.nextInt());
+          amt.add(z.nextInt());
+       }
+       for(int i=0;i<dl.size();i++)
+       {
+           for(int j=0;j<dl.size();j++)
+           {
+               if(amt.get(i)<amt.get(j))
+               {
+                   Collections.swap(name, i, j);
+                   Collections.swap(dl, i, j);
+                   Collections.swap(amt, i, j);  
+                }
+           }
+       }
+       int max=Collections.max(dl);
+       fun(name,dl,amt,max);
+   }
+}
+==================print the job allocate name with the allocate order=================================
+
+
+
+import java.util.*;
+public class Job {
+   char id;
+   int deadline, profit;
+   public Job() {}
+   public Job(char id, int deadline, int profit) {
+      this.id = id;
+      this.deadline = deadline;
+      this.profit = profit;
+   }
+   void printJobScheduling(ArrayList<Job> arr, int t) {
+   
+      int n = arr.size();
+      
+      Collections.sort(arr,(a, b) -> b.profit - a.profit);
+      
+      boolean result[] = new boolean[t];
+      
+      char job[] = new char[t];
+   
+      for (int i = 0; i < n; i++) {
+      
+         for (int j = Math.min(t - 1, arr.get(i).deadline - 1); j >= 0; j--) {
+         
+            if (result[j] == false) {
+               result[j] = true;
+               job[j] = arr.get(i).id;
+               break;
+            }
+         }
+      }
+   
+      for (char jb : job)
+      System.out.print(jb + " ");
+      System.out.println();
+   }
+ 
+   public static void main(String args[]) {
+      ArrayList<Job> arr = new ArrayList<Job>();
+      arr.add(new Job('a', 2, 100));
+      arr.add(new Job('b', 1, 20));
+      arr.add(new Job('c', 2, 40));
+      arr.add(new Job('d', 1, 80));
+      arr.add(new Job('e', 3, 60));
+
+      System.out.println("Following is maximum profit sequence of jobs");
+      Job job = new Job();
+     
+      job.printJobScheduling(arr, 3);
+   }
+}
